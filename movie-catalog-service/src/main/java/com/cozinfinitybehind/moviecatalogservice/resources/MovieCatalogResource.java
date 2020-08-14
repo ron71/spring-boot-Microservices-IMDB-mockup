@@ -3,6 +3,7 @@ package com.cozinfinitybehind.moviecatalogservice.resources;
 import com.cozinfinitybehind.moviecatalogservice.models.CatalogItem;
 import com.cozinfinitybehind.moviecatalogservice.models.Movie;
 import com.cozinfinitybehind.moviecatalogservice.models.Rating;
+import com.cozinfinitybehind.moviecatalogservice.models.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,8 @@ public class MovieCatalogResource {
 
         //get all rated movieId
 
-        List<Rating> ratings = Arrays.asList(new Rating("101", 5), new Rating("102", 3));
+        List<Rating> ratings = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/foo", UserRating.class)
+                .getRatingList();
 
         //get movie detail for each Id
         return ratings.stream().map(rating -> {
